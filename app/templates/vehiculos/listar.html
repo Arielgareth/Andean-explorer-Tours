@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehículos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            /* Ponemos de fondo la misma imagen de tu ERP */
+            background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), 
+                        url("{{ url_for('static', filename='img/Vehiculos.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        /* Convertimos tu tarjeta en una estructura translúcida */
+        .card-glass {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: none !important;
+            border-radius: 20px !important;
+            overflow: hidden; /* Mantiene redondeada la cabecera */
+        }
+
+        /* Ajustamos las cabeceras para que encajen con la transparencia */
+        .card-header {
+            background: rgba(13, 110, 253, 0.9) !important; /* Azul de tu Navbar un poco transparente */
+            border-bottom: none;
+            padding: 20px !important;
+        }
+
+        .table {
+            background: transparent !important;
+        }
+
+        .table-dark {
+            --bs-table-bg: rgba(33, 37, 41, 0.9) !important;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+    <div class="container">
+        <span class="navbar-brand fw-bold">
+            室 Andean Explorer Tours
+        </span>
+        <a href="/dashboard" class="btn btn-light text-primary fw-bold">
+            <i class="bi bi-house-fill"></i> Dashboard
+        </a>
+    </div>
+</nav>
+
+<div class="container mt-5 mb-5">
+
+    <div class="card card-glass shadow-lg">
+
+        <div class="card-header text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="m-0 fw-bold">
+                    <i class="bi bi-truck"></i> Lista de Vehículos
+                </h3>
+                <a href="/vehiculos/nuevo" class="btn btn-success fw-semibold">
+                    <i class="bi bi-plus-circle"></i> Nuevo Vehículo
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Placa</th>
+                            <th>Capacidad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for vehiculo in vehiculos %}
+                        <tr>
+                            <td class="fw-bold">{{vehiculo.id}}</td>
+                            <td>{{vehiculo.marca}}</td>
+                            <td>{{vehiculo.modelo}}</td>
+                            <td><span class="badge bg-light text-dark border">{{vehiculo.placa}}</span></td>
+                            <td>
+                                {{vehiculo.capacidad}} pasajeros
+                            </td>
+                            <td>
+                                {% if vehiculo.estado == "Disponible" %}
+                                    <span class="badge bg-success">Disponible</span>
+                                {% elif vehiculo.estado == "Ocupado" %}
+                                    <span class="badge bg-danger">Ocupado</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">En mantenimiento</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="/vehiculos/editar/{{vehiculo.id}}" class="btn btn-warning btn-sm fw-semibold me-1">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </a>
+                                <a href="/vehiculos/eliminar/{{vehiculo.id}}" class="btn btn-danger btn-sm"
+                                   onclick="return confirm('¿Desea eliminar este vehículo?')">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div> </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
