@@ -117,7 +117,7 @@ app/
 
 Aplicación Web:
 
-**(Agregar aquí la URL de Render)**
+https://andean-explorer-tours.onrender.com
 
 ---
 
